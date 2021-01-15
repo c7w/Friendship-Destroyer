@@ -41,3 +41,5 @@ We added another feature in version Beta 20210115 that while playing games and r
 Anyway, I'm now going to upload this SHIT code to Gayhub and try to be a Pigeon.
 Maybe in a few days these bugs will fix themselves.
 Believe it or not, I'm 99% positive that it'd be realized.
+
+This line is used to test VScode-Gayhub Link.
