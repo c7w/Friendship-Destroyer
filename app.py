@@ -1,7 +1,10 @@
 import os
 from flask import Flask, render_template, request
 from utils import file
+from utils import globalVariableManager as gb
 
+gb._init()
+file.restart()
 app = Flask(__name__)
 
 @app.route("/")
@@ -12,7 +15,7 @@ def hw():
 # Game
 @app.route("/game")
 def game():
-    game = file.load()
+    game = gb.get('game')
     table = file.getTable(game)
     control = file.getControl(game)
     log = file.getLog(game)
@@ -22,7 +25,7 @@ def game():
 # Control
 @app.route("/control", methods=['GET'])
 def control():
-    game = file.load()
+    game = gb.get('game')
     mode = request.args.get('mode')
     if mode == "getTable":
         return file.getTable(game)

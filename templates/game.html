@@ -11,10 +11,8 @@
         <p><li>Literally, 某个玩家四个子连在一起就赢了.</li></p>
         </div>
         <hr/>
-        <div align="center">
-            <p id="table">
-                {{table|safe}}
-            </p>
+        <div align="center" id="table">
+            {{table|safe}}
         </div>
         <hr/>
         <div align="center">
@@ -47,11 +45,9 @@
     </script>
 
     <script language="JavaScript">
-        function reloadGameMenu(){
+        function reloadTable(){
             var xhr1 = new XMLHttpRequest();
-            var xhr2 = new XMLHttpRequest();
             xhr1.open('GET', '../control?mode=getTable', true);
-            xhr2.open('GET', '../control?mode=getLog', true);
             xhr1.send();
             xhr1.onreadystatechange = function () {
                 if (xhr1.readyState == 4 && xhr1.status == 200) {
@@ -59,16 +55,21 @@
                     document.getElementById('table').innerHTML = res;
                 }
             };
+        }
+        function reloadLog(){
+            var xhr2 = new XMLHttpRequest();
+            xhr2.open('GET', '../control?mode=getLog', true);
             xhr2.send();
             xhr2.onreadystatechange = function () {
-                if (xhr1.readyState == 4 && xhr1.status == 200) {
+                if (xhr2.readyState == 4 && xhr2.status == 200) {
                     var res = xhr2.responseText;//获取到json字符串，解析
                     document.getElementById('log').innerHTML = res;
                 }
             };
         }
 
-        setInterval("reloadGameMenu()", 2000);
+        setInterval("reloadTable()", 1000);
+        setInterval("reloadLog()", 10000);
     </script>
 </html>
 

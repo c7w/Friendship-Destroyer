@@ -2,7 +2,9 @@ import os
 import yaml
 from datetime import datetime
 from utils import game
+from utils import globalVariableManager as gb
 
+'''
 def load():
     exist = os.path.exists("./data/game.yml")
     # If exist then load it directly:
@@ -21,6 +23,7 @@ def load():
         f1=open("./data/game.yml", encoding='utf-8', mode='a+')
         yaml.dump(y, f1)
         return g
+'''
     
 
 def getTable(game):
@@ -41,7 +44,8 @@ def getTable(game):
         result += "    <tr>\n"
         for j in range(1, size + 1):
             if (entry[i][j] > 0):
-                result += '''        <td width=50 height=50 bgcolor="ffff00"></td>\n'''
+                result += '''        <td width=50 height=50 bgcolor="ffff00">''' + \
+                    str(entry[i][j]) + '''</td>\n'''
             else:
                 result += '''        <td width=50 height=50 onclick="take(''' + str(i) +''', ''' +str(j) + ''')"></td>\n'''
         result += "    </tr>\n"
@@ -67,6 +71,7 @@ def getControl(game):
     </table>'''
     return result
 
+'''
 def getLog(game):
     exist = os.path.exists("./data/log/" + game.log_file)
     if exist:
@@ -74,23 +79,50 @@ def getLog(game):
     else:
         f = open("./data/log/" + game.log_file, encoding='utf-8', mode='w+')
     return f.read()
+'''
 
+def getLog(game):
+    return gb.get('log', "")
+
+'''
 def restart() :
     path = "./data/game.yml"
     if (os.path.exists(path)) :
         os.remove(path)
+'''
 
+def restart():
+    f = open("./data/default.yml", encoding='utf-8')
+    y = yaml.load(f.read(), Loader=yaml.SafeLoader)
+    y['log_file'] = datetime.strftime(datetime.now(), "%Y-%m-%d-%H-%M-%S") + ".log"
+    y['table'] = game.Table(y['tableSize']).entry
+    g=game.Game(y['tableSize'], y['status'], y['log_file'], y['table'], y['turnCount'], y['playerCount'])
+    gb.set('game', g)
+    gb.set('log', "")
+'''
 def save(game):
     y = game.toDict()
     f1 = open("./data/game.yml", encoding='utf-8', mode='w+')
     yaml.dump(y, f1)
+'''
 
+def save(game):
+    gb.set('game', game)
+
+'''
 def appendLog(game, content):
     former = getLog(game)
     current = "[" + datetime.strftime(datetime.now(), "%Y%m%d %H%M%S") + \
         "] " + str(content) + " <br/>\n" + former
     fw = open("./data/log/" + game.log_file, encoding='utf-8', mode='w+')
     fw.write(current)
+'''
+def appendLog(game, content):
+    former = gb.get('log', "")
+    current = "[" + datetime.strftime(datetime.now(), "%Y-%m-%d %H:%M:%S") + \
+        "] " + str(content) + " <br/>\n" + former
+    gb.set('log', current)
+
 
 def set(game, x, y, val):
     print(x, y)
