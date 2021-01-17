@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hw():
-    return 'hwd'
+    return '是兄弟就来玩许老板，一刀999'
     
     
 # Game

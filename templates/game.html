@@ -28,7 +28,12 @@
     </body>
     <script>
         var player = 1;
+        var dirty = false;
         function take(x, y){
+            if(dirty){
+                return;
+            }
+            dirty = true;
             if(document.getElementById('currentPlayer').innerText != player.toString()){
                 alert('现在不是你的回合！')
                 return;
@@ -55,6 +60,7 @@
                     document.getElementById('table').innerHTML = res;
                 }
             };
+            dirty = false;
         }
         function reloadLog(){
             var xhr2 = new XMLHttpRequest();

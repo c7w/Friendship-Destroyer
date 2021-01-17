@@ -125,7 +125,8 @@ def appendLog(game, content):
 
 
 def set(game, x, y, val):
-    print(x, y)
+    if ((game.turnCount - 1) % game.playerCount + 1 != val):
+        return
     game.turnCount += 1
     game.status = "Turn_" + str(game.turnCount) + "_|_Player_" + str((game.turnCount-1) % game.playerCount + 1)
     game.table.entry[x][y] = val
